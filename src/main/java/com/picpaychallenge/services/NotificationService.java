@@ -1,0 +1,25 @@
+package com.picpaychallenge.services;
+
+import com.picpaychallenge.domain.user.User;
+import com.picpaychallenge.dtos.NotificationDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class NotificationService {
+    @Autowired
+    private RestTemplate restTemplate;
+
+    public void sendNotification(User user, String Message) throws Exception {
+        String email = user.getEmail();
+        NotificationDTO notificationRequest = new NotificationDTO(email, message);
+        ResponseEntity<String> notificationResponse = restTemplate.getForEntity("https://util.devi.tools/api/v1/notify", notificationRequest, String.class);
+        if(!(notificationResponse.getStatusCode() == HttpStatus.OK)){
+            throw new Exception("Notification service is offline");
+            System.out.println("Error to send notification");
+        }
+    }
+}
