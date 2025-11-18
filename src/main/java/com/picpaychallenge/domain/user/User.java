@@ -1,5 +1,6 @@
 package com.picpaychallenge.domain.user;
 
+import com.picpaychallenge.dtos.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -28,4 +29,13 @@ public class User {
     private BigDecimal balance;
     @Enumerated(EnumType.STRING)
     private UserType userType;
+
+    public User(UserDTO data) {
+        this.firstname = data.firstName();
+        this.lastname = data.firstName();
+        this.balance = data.balance();
+        this.userType = data.userType();
+        this.password = data.password();
+        this.email = data.email();
+    }
 }
