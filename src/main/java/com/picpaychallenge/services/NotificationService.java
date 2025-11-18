@@ -13,13 +13,13 @@ public class NotificationService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public void sendNotification(User user, String Message) throws Exception {
+    public void sendNotification(User user, String message) throws Exception {
         String email = user.getEmail();
         NotificationDTO notificationRequest = new NotificationDTO(email, message);
-        ResponseEntity<String> notificationResponse = restTemplate.getForEntity("https://util.devi.tools/api/v1/notify", notificationRequest, String.class);
+        ResponseEntity<String> notificationResponse = restTemplate.postForEntity("https://util.devi.tools/api/v1/notify", notificationRequest, String.class);
         if(!(notificationResponse.getStatusCode() == HttpStatus.OK)){
-            throw new Exception("Notification service is offline");
             System.out.println("Error to send notification");
+            throw new Exception("Notification service is offline");
         }
     }
 }
